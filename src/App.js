@@ -1,23 +1,32 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useEffect, useState } from 'react';
+const axios = require('axios');
 
-function App() {
+const App = () => {
+
+  const [image, setImage] = useState("");
+
+  useEffect(() => {
+    getNASAImageOfTheDay();
+  });
+
+  // AXIOS REQUEST TO BACKEND
+  const getNASAImageOfTheDay = async () => {
+    await axios.get('http://localhost:3001/images/APOD')
+      .then(function (response) {
+        setImage(response.data);
+        console.log(image);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      });
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <p>Hello There. Weclome to the NASA API Frontend</p>
+      <img src={image} alt="ZhurongRover" />
     </div>
   );
 }
